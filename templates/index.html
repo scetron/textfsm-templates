@@ -1,0 +1,62 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>TextFsm NTC-Templates</title>
+        <style>
+            .container {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: 0.1fr 1.9fr 1fr;
+                gap: 0px 0px;
+                grid-auto-flow: row;
+                grid-template-areas:
+                  "navigation navigation"
+                  "template output-1"
+                  "test-data output-2";
+              }
+              
+              .navigation { grid-area: navigation; }
+              
+              .template { grid-area: template; }
+              
+              .test-data { grid-area: test-data; }
+              
+              .output-1 { grid-area: output-1; }
+              
+              .output-2 { grid-area: output-2; }
+              
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="navigation">
+                Votes: <span id="count">{{ votes }}</span>
+                <br><br>
+                <button id="up">UP</button>
+                <br>
+                <button id="down">DOWN</button>
+            </div>
+            <div class="template"></div>
+            <div class="test-data"></div>
+            <div class="output-1"></div>
+            <div class="output-2"></div>
+          </div>
+        
+    </body>
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('button').forEach(button => {
+                button.onclick = () => {
+                    const request = new XMLHttpRequest();
+                    request.open('POST', `/${button.id}`);
+                    request.onload = () => {
+                        const response = request.responseText;
+                        document.getElementById('count').innerHTML = response;
+                    }; 
+                    request.send();
+                };
+            });
+        });
+    </script>
+</html>
